@@ -25,7 +25,10 @@ createHoc('path',function (Com) {
     let conf = this;
     return function(props){// component
         return (
-            <Route path={conf.path} component={Com}/>
+            <Switch>
+                <Route path={conf.path} component={Com}/>
+                <Redirect from="*" to="/error404" />
+            </Switch>
         )
     }
 })

@@ -1,13 +1,21 @@
 import {
-    React, Hoc,
-    Container,
-    CMForm
+    React, Container, Button,
+    CMForm,
+    Hoc
 } from '@/core';
+import Add from './modules/add'
 
-@Hoc({path:'/form/:id'})
+
+@Hoc({path:'/sys/table/id:id'})
 class Index extends React.Component {
 
-    render(){window.sss = this;
+    handleAdd = ()=>{
+        this.refs.add.onOpen({
+            title:'测试'
+        })
+    }
+
+    render(){
         return (
             <Container>
                 <CMForm columns={[
@@ -17,10 +25,13 @@ class Index extends React.Component {
                     {name:'date',text:'日期',type:'date'}
                 ]}
                 rules={{register:[{name:'isLength',min:3,max:5}]}}/>
+
+                <Button color="primary" variant="contained" onClick={this.handleAdd}>dialog</Button>
+
+                <Add ref="add"/>
             </Container>
         )
     }
 }
 
 export default Index;
-

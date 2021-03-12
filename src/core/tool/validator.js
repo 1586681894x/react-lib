@@ -2,7 +2,7 @@ import _ from 'lodash';
 import validator from 'validator';
 
 //_.validator = validator;// test
-
+// {name:'isLength',max:5,min:2}
 function Tips(){
     this.tips = {};
 }

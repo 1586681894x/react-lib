@@ -5,10 +5,10 @@ import {
     Hoc
 } from '@/core';
 
-@Hoc({type:'auth'})
-class Index extends React.PureComponent {
+@Hoc({type:'dialog'})
+class Index extends React.Component {
 
-    render(){
+    render(){window.sss = this;
         return (
             <Container>
                 <CMForm columns={[

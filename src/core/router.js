@@ -2,6 +2,7 @@
  * @Author Hill.Zhuang
  * @Description 尝试目录即请求资源
  * @Date 9:54 AM 2021/2/25
+ * modules
  */
 import React from "react";
 import Fade from '@material-ui/core/Fade';
@@ -53,7 +54,7 @@ export default function RouteWeb() {
         window.module = modules
     });
 
-    return ( // TODO :不方便化要不改用原生 route 数组对象吧
+    return (
         <Switch>
             <Redirect exact from="/" to="/index" />
             {
@@ -65,7 +66,7 @@ export default function RouteWeb() {
                     }
                 })
             }
-
+            <Redirect from="*" to="/error404" />
         </Switch>
     )
 }
