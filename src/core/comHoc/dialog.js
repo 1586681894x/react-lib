@@ -6,14 +6,32 @@ import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 
 export default function (Com) {
-    return class Dialog extends React.Component{
 
+    return class DialogBox extends React.Component{
         onClose = ()=>{
             this.setState({open:false})
         }
         onOpen = (opt)=>{// {}
             opt.open = true;
-            this.setState(opt)
+            this.setState(opt);
+        }
+        onConf = (opt)=>{
+            this.setState(opt);
+        }
+
+        handleButton = (item)=>{
+            let st = this.state;
+            return ()=>{
+                if(!item.key){
+                    this.setState({open:false})
+                    return;
+                }
+                //
+                st.onSuccess(item).then(()=>{
+                    this.state.onEnd();
+                    this.setState({open:false})
+                })
+            }
         }
 
         constructor(props){
@@ -21,21 +39,23 @@ export default function (Com) {
             this.state = {
                 open:false,
                 title:'提示',
+                onEnd:()=>{},
+                onSuccess:()=>{ return new Promise(r=>r())},
                 buttons:[
-                    {text:'Disagree',onClick:this.onClose,props:{}},
-                    {text:'Agree',onClick:this.onClose,props:{}},
+                    {text:'Disagree',props:{}},
+                    {text:'Agree',key:'ok',props:{}},
                 ]
             }
         }
 
         renderButtons(){
             let buttons = this.state.buttons;
-            if(buttons.length){
+            if(buttons?.length){
                 return (
                     <DialogActions>
                         {
                             buttons.map((v,i)=>{
-                                return <Button onClick={v.onClick} color="primary" {...v.props} key={i} >{v.text}</Button>
+                                return <Button onClick={this.handleButton(v)} color="primary" {...v.props} key={i} >{v.text}</Button>
                             })
                         }
                     </DialogActions>
@@ -48,7 +68,7 @@ export default function (Com) {
             return (
                 <Dialog onClose={this.onClose} aria-labelledby="simple-dialog-title" open={st.open}>
                     <DialogTitle>{st.title}</DialogTitle>
-                    <Com {...this.props} $parent={this}></Com>
+                    <Com {...this.props} onConf={this.onConf}></Com>
                     {this.renderButtons()}
                 </Dialog>
             )

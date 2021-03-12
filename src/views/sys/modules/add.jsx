@@ -8,7 +8,15 @@ import {
 @Hoc({type:'dialog'})
 class Index extends React.Component {
 
-    render(){window.sss = this;
+    UNSAFE_componentWillMount(){
+        this.props.onConf({
+            onSuccess:()=>{
+                return new Promise(r=>r())
+            }
+        })
+    }
+
+    render(){
         return (
             <Container>
                 <CMForm columns={[
