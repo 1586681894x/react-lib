@@ -1,0 +1,83 @@
+
+// app search-button
+.app-header{
+
+  .MuiAppBar-root{
+    padding:1rem 0;
+    &.MuiPaper-elevation0{
+      .searchbtn{display: block;}
+      .searchbtn1{display: none;}
+    }
+    &.MuiPaper-elevation4{
+      .searchbtn{display: none;}
+      .searchbtn1{display: block;}
+    }
+  }
+
+
+  .search-category{
+    position: relative;
+    .btn0{
+      color:@red;
+      font-weight: 500;
+    }
+    .btn1{
+      color:@dark;
+      font-weight: 500;
+    }
+    i{
+      color:@red;
+      position: absolute;
+      bottom: -7px;
+      left: 25px;
+      transition: left .4s;
+    }
+
+    &.active{
+      .btn0{
+        color:@dark;
+      }
+      .btn1{
+        color:@red;
+      }
+      i{
+        left:90px;
+      }
+    }
+  }
+
+  .search-box{
+    height:42px;
+    display: flex;
+    align-items: center;
+    border-color:@red;
+    .MuiInputBase-root{
+      padding-left:1rem;
+      flex:1;flex-grow: 1;
+      box-sizing:border-box;
+      -webkit-overflow-scrolling: touch;
+    }
+    .category{
+      width:122px;
+      height:100%;
+      border:0;
+      border-radius:0;
+      box-shadow: none;
+    }
+    .search{
+      height:100%;
+      padding-left: 1.5rem;
+      letter-spacing: .5rem;
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+  }
+
+}
+
+.logo{
+  height: 100%;
+  padding-right:2rem;
+  font-size: 2rem;
+  color: @dark;
+}
