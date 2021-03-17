@@ -17,7 +17,7 @@ req.keys().map(key => {
     let res = {
         key:key,
         path:name,
-        exact:false,
+        exact:true,
         children:[],
         component:''
     }
