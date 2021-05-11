@@ -41,11 +41,11 @@ _.scrollAn = ScrollExe;
 
 /* setTimeout     */
 let timer = {};
-function Timeout(name,action,duration){
+function Interval(name,action,duration){
     clearInterval(timer[name]);
     if(action){
         timer[name] = window.setInterval(action,duration);
     }
 }
 
-_.timeout = Timeout;
+_.interval = Interval;

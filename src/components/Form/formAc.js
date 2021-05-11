@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const path = require('path')
-const files = require.context('./module', false, /\.jsx$/)
+const files = require.context('./columns', false, /\.jsx$/)
 const modules = {}
 files.keys().forEach(key => {
     const name = path.basename(key, '.jsx') // 提取出用 ‘/' 隔开的path的最后一部分,path.basename(p, [ext])。 p要处理的path,ext要过滤的字符

@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
-import { AC } from './formAC'
-import PropTypes from 'prop-types';
+import { AC } from './formAc'
 //
 const { _ } = window;
 

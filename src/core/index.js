@@ -1,31 +1,23 @@
 import _ from 'lodash';
-import '../themes/less/index.less';
 import React from 'react';
-import Ajax, { Api } from './request';
-import CMTop from '@/components/Layout/top'
-import CMFooter from '@/components/Layout/footer'
-import CMScrollTop from '@/components/Layout/scrollTop'
-import CMHeader from '@/components/Header/header'
+import Api from '@/api'
 import CMForm from '@/components/Form/form'
+// import CMLabel from '@/components/label'
+// import CMFooter from '@/components/layout/nav'
 //
-import './tool';
+export * from './tool'
 
-export * from './comHoc';
-
-export * from './reportWebVitals'
+export * from './comHoc/index';
 
 export * from '@material-ui/core';
 
 export {
-    _,
     React,
+    _,
     CMForm,
-    CMScrollTop,
-    CMFooter,
-    CMTop,
-    CMHeader
+    // CMLabel,
+    // CMFooter
 }
-
 
 // extend React
 Object.defineProperty(React.Component.prototype,'api',{
@@ -33,3 +25,4 @@ Object.defineProperty(React.Component.prototype,'api',{
         return Api.call(this,name,param,options);
     }
 });
+
