@@ -2,12 +2,10 @@ import React from "react";
 import Fade from '@material-ui/core/Fade';
 import { Switch, Route, Redirect } from "react-router-dom";
 import { loadable } from "@/components/System/loadable";
+import Views  from './views.js';
 
-// let keys = require.context('@/views/', true, /\.jsx$/).keys();
-let keys = [
-    './index.jsx',
-    './form.jsx'
-]
+let req = require.context('@/views/', true, /\.jsx$/);
+let keys = Views || req.keys();
 let modulesLayout = {};
 let modules = [];
 // modules 、 Layout.jsx
@@ -24,17 +22,17 @@ keys.map(key => {
     if(name.indexOf('/layout')>-1){
         res.exact = true;
         res.path = name.replace('/layout','');
-        res.component = key.replace(/^\.\//,'').replace(/.jsx$/,'')  // req(key).default || req(key);
+        res.component = key.replace(/^\.\//,'').replace(/.jsx$/,'')
         modulesLayout[res.path] = res;
     }else if(name.indexOf('/modules')>-1){
         //
     }else{
-        res.component = key.replace(/^\.\//,'').replace(/.jsx$/,'') // req(key).default ?? req(key);
+        res.component = key.replace(/^\.\//,'').replace(/.jsx$/,'')
     }
     //
     if(res.component){
         let url = res.component;
-        res.component = loadable(import(`@/views/${url}.jsx`))
+        res.component = Views ? loadable(import(`@/views/${url}.jsx`)) : req(key).default ?? req(key)
         modules.push(res);
     }
     return true;
@@ -45,8 +43,7 @@ Object.keys(modulesLayout).forEach((key)=>{
     for(let i = modules.length - 1;i>-1;i--){
         let v = modules[i];
         if(v.path !== key && v.path.indexOf(key)>-1){
-            let push = modulesLayout[key].children?.push;
-            push && push(v);
+            modulesLayout[key].children?.push(v);
             modules.splice(i,1);
         }
     }
@@ -55,7 +52,7 @@ Object.keys(modulesLayout).forEach((key)=>{
 //
 export default function RouteWeb() {
     React.useEffect(() => {
-        window.module = modules
+        window.module = keys;
     });
 
     return (

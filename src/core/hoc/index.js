@@ -5,7 +5,10 @@ let resource = {};
 export function Hoc(options){
     return function (Com) {
         Object.keys(options).forEach((key)=>{
-            Com = getHoc(key).call(options,Com)
+            let fun = getHoc(key);
+            if(fun){
+                Com = fun.call(options,Com)
+            }
         })
         return Com;
     }

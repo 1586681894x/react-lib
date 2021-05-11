@@ -4,7 +4,7 @@ import {
     CMForm
 } from '@/core';
 
-@Hoc({path:'/form/:id'})
+@Hoc({path:'/form/:id',auth:true})
 class Index extends React.Component {
 
     render(){window.sss = this;

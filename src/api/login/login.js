@@ -1,4 +1,4 @@
-import request from '@/core/request'
+import request from '@/utils/request'
 
 // 登录方法
 export function login(param) {
@@ -24,7 +24,7 @@ export function logout() {
 // 刷新方法
 export function token() {
     return request({
-        url: '/auth/token/refresh',
+        url: '/api/auth/token/refresh',
         method: 'post'
     })
 }
