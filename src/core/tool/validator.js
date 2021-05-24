@@ -22,30 +22,6 @@ function Tips(){
 
 //
 let tips = new Tips();
-let valiFun = (o,r)=>{
-    if(o.error){
-        return;
-    }
-    //
-    let rule = _.isString(r) ? {name:r} : r;
-    let fun = validator[rule.name];
-    rule.msg || (rule.msg = tips.get(rule));
-    if(!fun){
-        console.log(`VALIDATE ( ${rule.name} ) is not found`)
-        return;
-    }
-    //
-    if(_.isEmpty(o.value)){
-        if('required' === rule.name){
-            o.error = validator.required(o.value,rule) ? '' : rule.msg;
-        }
-    }else if(['isMobilePhone'].indexOf(rule.name)>-1){
-        o.error = fun(o.value,rule.locale||['zh-CN'],rule) ? '' : rule.msg;
-    }else{
-        o.error = fun(o.value,rule) ? '' : rule.msg;
-    }
-}
-
 tips.add('required',(r)=>{
     return '必填项'
 });
@@ -66,16 +42,39 @@ tips.add('isLength',(r)=>{
 
 
 //
+let valiFun = (o,r)=>{
+    let rule = _.isString(r) ? {name:r} : r;
+    let fun = validator[rule.name];
+    rule.msg || (rule.msg = tips.get(rule));
+    if(!fun){
+        console.log(`VALIDATE ( ${rule.name} ) is not found`)
+        return;
+    }
+    //
+    if(_.isEmpty(o.value)){
+        if('required' === rule.name){
+            o.error = validator.required(o.value,rule) ? '' : rule.msg;
+        }
+    }else if(['isMobilePhone'].indexOf(rule.name)>-1){
+        o.error = fun(o.value,rule.locale||['zh-CN'],rule) ? '' : rule.msg;
+    }else{
+        o.error = fun(o.value,rule) ? '' : rule.msg;
+    }
+}
+
 _.validator = validator;
 _.validate = (opt = {value:'',error:'',rules:[]})=>{// rule : [{name:''},'isInt']
     let promise = [];
     opt.error = '';
     opt.rules.forEach((v)=>{
         new Promise((res)=>{
-            if(_.isFunction(v)){
-                v(opt,()=>res())
+            if(opt.error){
+                res();
+            }else if(_.isFunction(v)){
+                v(opt,res)
             }else{
                 valiFun(opt,v);
+                res()
             }
         })
     })

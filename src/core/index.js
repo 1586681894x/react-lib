@@ -1,9 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
-import Api from '@/api/index.js'
-import CMForm from '@/components/Form/form'
-// import CMLabel from '@/components/label'
-// import CMFooter from '@/components/layout/nav'
+import CHeader from '@/components/Layout/header'
+import CFooter from '@/components/Layout/footer'
+import CForm from '@/components/Form/form'
+import CPannel from '@/components/System/pannel'
+import CLogin from '@/components/System/login'
+import CSmscode from '@/components/System/smscode'
+import CValcode from '@/components/System/valcode'
+import CCarsousel from '@/components/Layout/carsousel'
 //
 export * from './tool'
 
@@ -14,15 +18,12 @@ export * from '@material-ui/core';
 export {
     React,
     _,
-    CMForm,
-    // CMLabel,
-    // CMFooter
+    CForm,
+    CHeader,
+    CFooter,
+    CPannel,
+    CLogin,
+    CSmscode,
+    CValcode,
+    CCarsousel
 }
-
-// extend React
-Object.defineProperty(React.Component.prototype,'api',{
-    value:function(name,param,options){
-        return _.get(Api,name)?.call(this,param,options);
-    }
-});
-

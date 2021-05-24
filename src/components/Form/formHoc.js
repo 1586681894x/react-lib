@@ -23,14 +23,11 @@ export default function mixin(com){
                 this._set(opt);
             }
         },
-        _validate(callback = ()=>{}){
+        _validate(resolve){
             let opt = this.options;
-            _.VALIDATE(opt,(msg)=>{
-                if(msg !== opt.error){
-                    this.options.error = msg;
-                    this.forceUpdate();
-                }
-                callback(msg);
+            return _.validate(opt).then(()=>{
+                this.forceUpdate();
+                return opt;
             })
         },
         _clear(start){

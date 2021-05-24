@@ -21,27 +21,30 @@ class Index extends React.Component {
         return data;
     }
 
-    validate(){
+    validate(callback){
         let { columns } = this.props;
         let pro = [];
         columns.map((v)=>{
             pro.push(new Promise((res)=>{
-                v.$this._validate((msg)=>{
-                    if(!msg){
-                        res()
-                    }
-                })
+                v.$this._validate().then(res);
             }));
         })
         //
-        return Promise.all(pro);
+        Promise.all(pro).then((()=>{
+            callback && callback(this.getData())
+        }))
     }
 
     setData(row){
         let { columns } = this.props;
         columns.map((v)=>{
-            if(row.hasOwnProperty(v.name)){
-                v.$this._set(row[v.name]);
+            let item = row[v.name];
+            if(!row.hasOwnProperty(v.name)){
+                //
+            }else if(_.isObject(item)){
+                v.$this._options(item);
+            }else{
+                v.$this._set(item);
             }
         })
         return this;

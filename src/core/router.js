@@ -1,5 +1,4 @@
 import React from "react";
-import Fade from '@material-ui/core/Fade';
 import { Switch, Route, Redirect } from "react-router-dom";
 import { loadable } from "@/components/System/loadable";
 import Views  from './views.js';
@@ -50,7 +49,7 @@ Object.keys(modulesLayout).forEach((key)=>{
 })
 
 //
-export default function RouteWeb() {
+export default function RouteWeb(props) {
     React.useEffect(() => {
         window.module = keys;
     });
@@ -69,7 +68,7 @@ export default function RouteWeb() {
                             }
                         })
                     }
-                    <Redirect from="*" to="/error404" />
+                    <Redirect from="*" to="/resouce404" />
                 </Switch>
             }
         }/>

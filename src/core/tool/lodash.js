@@ -1,51 +1,49 @@
 import _ from 'lodash';
+import qs from 'qs';
+import Api from '@/api/index.js'
 
-/*  scroll animation   */
-function ScrollExe(dom = document.body){
-    let arr = [];
-    //
-    dom.querySelectorAll('div.scrollAn')?.forEach((el)=>{
-        let offset = el.offsetTop;
-        let h = window.innerHeight;
-        el.style.transform = 'matrix(1, 0, 0, 1, 0, 50)';
-        arr.push({
-            el:el,
-            scrollTop:offset - h - 10,
-            end:{y:0}
-        })
-    })
-    //
-    ScrollExe.arr = arr;
-    ScrollExe.action = _.debounce(ScrollExe.action);
-    window.removeEventListener('scroll',ScrollExe.action)
-    window.addEventListener('scroll',ScrollExe.action)
+// api
+_.api = function(name,param,options){
+    return _.get(Api,name)?.call(this,param,options);
 }
 
-ScrollExe.action = function(){
-    if(!ScrollExe.arr.length){
-        window.removeEventListener('scroll',ScrollExe.action)
-        return;
-    }
-    //
-    let scrollTop = document.documentElement.scrollTop || window.pageYOffset;
-    let [...arr] = ScrollExe.arr;
-    arr.forEach((v,i)=>{
-        if(scrollTop >= v.scrollTop){
-            window.TweenMax.to(v.el, 1, v.end);
-            ScrollExe.arr.splice(i,1);
+// http - params
+_.params = {
+    get:(url,key)=>{
+        let pm = qs.parse(url.split('?')[1]);
+        if(key){
+            return pm[key]
+        }else{
+            return pm;
         }
-    })
-}
-
-_.scrollAn = ScrollExe;
-
-/* setTimeout     */
-let timer = {};
-function Interval(name,action,duration){
-    clearInterval(timer[name]);
-    if(action){
-        timer[name] = window.setInterval(action,duration);
+    },
+    add:(url,obj)=>{
+        let pm = _.extend(_.params.get(url),obj);
+        return (url+'?').replace(/\?.*/,`?${qs.stringify(pm)}`)
     }
 }
 
-_.interval = Interval;
+
+
+// link
+_.link = function(url = '',opt = {
+    redirect:false
+}){
+    if(opt.redirect){
+        let arr = url.split('?');
+        if(url){
+            url = _.params.add(url,{redirect:window.location.href});
+        }else{
+            url = _.params.get(url,'redirect');
+        }
+    }
+    //
+    return ()=>{
+        if(/^http/.test(url)){
+            window.location.href = decodeURIComponent(url);
+        }else{
+            _.history.push(url)
+            document.documentElement.scrollTop = 0;
+        }
+    }
+}
